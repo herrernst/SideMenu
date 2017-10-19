@@ -334,6 +334,19 @@ open class SideMenuManager : NSObject {
     }
     
     /**
+     Adds screen edge gestures to a view to present a menu for both sides.
+     
+     - Parameter toView: The view to add gestures to.
+     
+     - Returns: The array of screen edge gestures added to `toView`.
+     */
+    @discardableResult open func menuAddScreenEdgePanGesturesToPresent(toView: UIView) -> [UIScreenEdgePanGestureRecognizer] {
+        return [UIRectEdge.left, UIRectEdge.right].flatMap {
+            SideMenuManager.default.menuAddScreenEdgePanGesturesToPresent(toView: toView, forMenu: $0).first ?? nil
+        }
+    }
+    
+    /**
      Adds screen edge gestures to a view to present a menu.
      
      - Parameter toView: The view to add gestures to.
@@ -341,7 +354,7 @@ open class SideMenuManager : NSObject {
  
      - Returns: The array of screen edge gestures added to `toView`.
      */
-    @discardableResult open func menuAddScreenEdgePanGesturesToPresent(toView: UIView, forMenu:UIRectEdge? = nil) -> [UIScreenEdgePanGestureRecognizer] {
+    @discardableResult open func menuAddScreenEdgePanGesturesToPresent(toView: UIView, forMenu: UIRectEdge) -> [UIScreenEdgePanGestureRecognizer] {
         var array = [UIScreenEdgePanGestureRecognizer]()
         
         let newScreenEdgeGesture = { () -> UIScreenEdgePanGestureRecognizer in
@@ -673,7 +686,7 @@ extension SideMenuManager {
         }
     }
     @available(*, deprecated, renamed: "default.menuAddScreenEdgePanGesturesToPresent", message: "SideMenuManager class methods deprecated.")
-    @discardableResult open class func menuAddScreenEdgePanGesturesToPresent(toView: UIView, forMenu:UIRectEdge? = nil) -> [UIScreenEdgePanGestureRecognizer] {
+    @discardableResult open class func menuAddScreenEdgePanGesturesToPresent(toView: UIView, forMenu: UIRectEdge) -> [UIScreenEdgePanGestureRecognizer] {
         return `default`.menuAddScreenEdgePanGesturesToPresent(toView: toView, forMenu: forMenu)
     }
     @available(*, deprecated, renamed: "default.menuAddPanGestureToPresent", message: "SideMenuManager class methods deprecated.")
